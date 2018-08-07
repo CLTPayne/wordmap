@@ -15,9 +15,9 @@ task :setup do
     connection = PG.connect
     connection.exec("CREATE DATABASE #{database};")
     connection = PG.connect(dbname: database)
-    connection.exec("CREATE TABLE article(id SERIAL PRIMARY KEY, \
+    connection.exec("CREATE TABLE articles(id SERIAL PRIMARY KEY, \
       text VARCHAR(10485760) UNIQUE);")
-    connection.exec("CREATE TABLE keyword(id SERIAL PRIMARY KEY, \
+    connection.exec("CREATE TABLE keywords(id SERIAL PRIMARY KEY, \
       text VARCHAR(30) UNIQUE);")
     connection.exec("CREATE TABLE articles_keywords(id SERIAL PRIMARY KEY, \
       article_id integer REFERENCES article(id), keyword_id integer REFERENCES \
@@ -30,7 +30,7 @@ task :test_database_setup do
 
   connection = PG.connect(dbname: 'wordmap_test')
   connection.exec("TRUNCATE article, keyword CASCADE, \
-    article_keyword CASCADE;")
+    articles_keywords CASCADE;")
 
   connection.close
 end
